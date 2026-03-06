@@ -18,60 +18,59 @@ $domainTitle = ucwords(str_replace('-', ' ', $domainSlug));
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?= $domainTitle ?> — Экспертный консалтинг и стратегии роста
+        <?= $domainTitle ?> | Инновационная IT-школа
     </title>
-<link rel="icon"
-    href="data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23635BFF;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%230A2540;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M4 16H9L12 6L18 26L21 16H28' stroke='url(%23grad)' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='28' cy='16' r='3' fill='%23635BFF' /%3E%3C/svg%3E"
-    type="image/svg+xml">
+
+<link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='32' height='32' rx='8' fill='%230055FF'/%3E%3Ccircle cx='16' cy='16' r='6' fill='white'/%3E%3Ccircle cx='24' cy='8' r='4' fill='%23FF6B00'/%3E%3C/svg%3E">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Manrope:wght@500;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Syne:wght@700;800&display=swap"
         rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
     <header class="header">
-        <div class="container header__container">
-            <a href="./#hero" class="logo">
-                <span class="logo__icon"></span>
-                <span class="logo__text">
-                    <?= $domainTitle ?>
-                </span>
-            </a>
-
+        <div class="container">
             <nav class="nav">
-                <ul class="nav__list">
-                    <li><a href="./#hero" class="nav__link">Главная</a></li>
-                    <li><a href="./#strategies" class="nav__link">Стратегии</a></li>
-                    <li><a href="./#expertise" class="nav__link">Экспертиза</a></li>
-                    <li><a href="./#insights" class="nav__link">Инсайты</a></li>
-                    <li><a href="./#reviews" class="nav__link">Отзывы</a></li>
+                <a href="./#hero" class="logo">
+                    <span class="logo__dot"></span>
+                    <?= $domainTitle ?>
+                </a>
+
+                <ul class="menu">
+                    <li><a href="./#hero" class="menu__link">Главная</a></li>
+                    <li><a href="./#courses" class="menu__link">Программы</a></li>
+                    <li><a href="./#about" class="menu__link">О нас</a></li>
+                    <li><a href="./#reviews" class="menu__link">Отзывы</a></li>
+                    <li><a href="./#faq" class="menu__link">FAQ</a></li>
                 </ul>
+
+                <div class="header__actions">
+                    <a href="./#contact" class="btn btn--primary">Связаться</a>
+                    <button class="burger" aria-label="Menu">
+                        <span></span>
+                    </button>
+                </div>
             </nav>
-
-            <a href="./#contact" class="btn btn--outline header__cta">Связаться</a>
-
-            <button class="burger" aria-label="Menu">
-                <span></span>
-            </button>
         </div>
     </header>
-
 <main>
     <section class="pages">
         <div class="container">
             <h1>Контактная информация</h1>
 
             <p>
-                Мы всегда открыты для новых проектов и профессиональных дискуссий. 
+                Мы всегда открыты для будущих студентов и профессиональных дискуссий о технологиях. 
                 Свяжитесь с командой <strong><?= $domainTitle ?></strong> любым удобным для вас способом. 
-                Наши специалисты в Берлине готовы ответить на ваши вопросы по будням с 09:00 до 18:00 (CET).
+                Наши эксперты в Риме готовы ответить на ваши вопросы по будням с 09:00 до 18:00 (CET).
             </p>
 
             <div class="contact-cards">
@@ -80,8 +79,8 @@ $domainTitle = ucwords(str_replace('-', ' ', $domainSlug));
                         <i data-lucide="mail"></i>
                     </div>
                     <h2>Пишите нам</h2>
-                    <p>Для общих вопросов, предложений и запросов на консалтинг:</p>
-                    <a href="mailto:hello@<?= $fullDomain ?>" class="contact-link">hello@<?= $fullDomain ?></a>
+                    <p>Для вопросов по обучению, программе пассивного дохода и запросов на доступ:</p>
+                    <a href="mailto:support@<?= $fullDomain ?>" class="contact-link">support@<?= $fullDomain ?></a>
                 </div>
 
                 <div class="contact-card">
@@ -89,20 +88,20 @@ $domainTitle = ucwords(str_replace('-', ' ', $domainSlug));
                         <i data-lucide="phone"></i>
                     </div>
                     <h2>Звоните</h2>
-                    <p>Прямая линия поддержки клиентов и экспертных консультаций:</p>
-                    <a href="tel:+390697639457" class="contact-link">+390697639457</a>
+                    <p>Прямая линия экспертной поддержки и бесплатных консультаций в Италии:</p>
+                    <a href="tel:+390697638629" class="contact-link">+39 06 9763 8629</a>
                 </div>
 
                 <div class="contact-card">
                     <div class="contact-card__icon">
                         <i data-lucide="map-pin"></i>
                     </div>
-                    <h2>Наш офис</h2>
-                    <p>Главный офис компании Pulse Dapt расположен по адресу:</p>
+                    <h2>Наш кампус</h2>
+                    <p>Главный офис IT-школы <?= $domainTitle ?> расположен по адресу:</p>
                     <address class="contact-address">
-                        Kurfürstendamm 21,<br>
-                        10719 Berlin,<br>
-                        Germany
+                        Via dei Condotti, 10,<br>
+                        00187 Roma RM,<br>
+                        Italy
                     </address>
                 </div>
             </div>
@@ -110,7 +109,8 @@ $domainTitle = ucwords(str_replace('-', ' ', $domainSlug));
             <div class="contact-extra">
                 <p>
                     Вы также можете воспользоваться формой обратной связи на 
-                    <a href="./#contact">главной странице</a> для быстрой отправки запроса.
+                    <a href="./#contact">главной странице</a> для мгновенной отправки заявки. 
+                    Предложение активно только в странах ЕС.
                 </p>
             </div>
         </div>
@@ -118,34 +118,33 @@ $domainTitle = ucwords(str_replace('-', ' ', $domainSlug));
 </main>
 
 
-
-
-     <footer class="footer">
-        <div class="container footer__grid">
-            <div class="footer__col">
-                <a href="./#hero" class="logo footer__logo">
-                    <span class="logo__icon"></span>
-                    <span class="logo__text">
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div class="footer__col">
+                    <a href="./#hero" class="logo logo--footer">
+                        <span class="logo__dot"></span>
                         <?= $domainTitle ?>
-                    </span>
-                </a>
-                <p class="footer__description">Технологии нового поколения для вашего бизнеса. Переосмыслите подход к
-                    развитию вместе с экспертной поддержкой.</p>
-            </div>
+                    </a>
+                    <p class="footer__text">
+                        Передовая цифровая инфраструктура для вашего обучения. Постройте карьеру, которая работает на
+                        вас.
+                    </p>
+                </div>
 
-            <div class="footer__col">
-                <h4 class="footer__title">Навигация</h4>
-                <ul class="footer__links">
-                    <li><a href="./#hero">Главная</a></li>
-                    <li><a href="./#strategies">Стратегии</a></li>
-                    <li><a href="./#expertise">Экспертиза</a></li>
-                    <li><a href="./#insights">Инсайты</a></li>
-                </ul>
-            </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Меню</h4>
+                    <ul class="footer__links">
+                        <li><a href="./#hero">Главная</a></li>
+                        <li><a href="./#courses">Программы</a></li>
+                        <li><a href="./#about">О нас</a></li>
+                        <li><a href="./#reviews">Отзывы</a></li>
+                    </ul>
+                </div>
 
-            <div class="footer__col">
-                <h4 class="footer__title">Документы</h4>
-                <ul class="footer__links">
+                <div class="footer__col">
+                    <h4 class="footer__title">Документы</h4>
+                    <ul class="footer__links">
                     <li><a href="./privacy.php">Privacy Policy</a></li>
                     <li><a href="./cookies.php">Cookie Policy</a></li>
                     <li><a href="./terms.php">Terms of Service</a></li>
@@ -153,51 +152,64 @@ $domainTitle = ucwords(str_replace('-', ' ', $domainSlug));
                     <li><a href="./disclaimer.php">Disclaimer</a></li>
                     <li><a href="./contact.php">Contact Us</a></li>
                     <li><a href="./personal-data-policy.php">Data Policy</a></li>
-                </ul>
+                    </ul>
+                </div>
+
+                <div class="footer__col">
+                    <h4 class="footer__title">Контакты</h4>
+                    <ul class="footer__contacts">
+                        <li>
+                            <i data-lucide="phone" class="icon--sm"></i>
+                            <a href="tel:+390697638629">+39 06 9763 8629</a>
+                        </li>
+                        <li>
+                            <i data-lucide="mail" class="icon--sm"></i>
+                            <a href="mailto:hello@<?= $fullDomain ?>">hello@
+                                <?= $fullDomain ?>
+                            </a>
+                        </li>
+                        <li>
+                            <i data-lucide="map-pin" class="icon--sm"></i>
+                            <span>Via dei Condotti, 10, 00187 Roma RM, Italy</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="footer__col">
-                <h4 class="footer__title">Контакты</h4>
-                <ul class="footer__contact">
-                    <li><i data-lucide="phone" class="icon-sm"></i> +390697639457</li>
-                    <li><i data-lucide="mail" class="icon-sm"></i> hello@
-                        <?= $fullDomain ?>
-                    </li>
-                    <li><i data-lucide="map-pin" class="icon-sm"></i> Kurfürstendamm 21, 10719 Berlin, Germany</li>
-                </ul>
+            <div class="footer__bottom">
+                <p>&copy;
+                    2026
+                    <?= $domainTitle ?>. Все права защищены. Платформа доступна в Европе.
+                </p>
             </div>
-        </div>
-        <div class="container footer__bottom">
-            <p>&copy; 2026
-                <?= $domainTitle ?>. Все права защищены. Предложение активно только в странах ЕС.
-            </p>
         </div>
     </footer>
-<div class="mobile-menu">
-    <button class="mobile-menu__close"><i data-lucide="x"></i></button>
-    <ul class="mobile-menu__list">
-        <li><a href="./#hero" class="mobile-menu__link">Главная</a></li>
-        <li><a href="./#strategies" class="mobile-menu__link">Стратегии</a></li>
-        <li><a href="./#expertise" class="mobile-menu__link">Экспертиза</a></li>
-        <li><a href="./#insights" class="mobile-menu__link">Инсайты</a></li>
-        <li><a href="./#reviews" class="mobile-menu__link">Отзывы</a></li>
-        <li><a href="./#contact" class="btn btn--primary">Связаться</a></li>
-    </ul>
-</div>
-
-<div id="cookie-popup" class="cookie-popup">
-    <div class="cookie-popup__content">
-        <p>Этот сайт использует cookies для улучшения работы. Подробнее — в нашей <a href="./cookies.php">Cookie
-                политике</a>.</p>
-        <button id="cookie-accept" class="btn btn--accent-sm">Принять</button>
+    <div class="mobile-menu">
+        <div class="mobile-menu__inner">
+            <ul class="mobile-menu__list">
+                <li><a href="./#hero" class="mobile-menu__link">Главная</a></li>
+                <li><a href="./#courses" class="mobile-menu__link">Программы</a></li>
+                <li><a href="./#about" class="mobile-menu__link">О нас</a></li>
+                <li><a href="./#reviews" class="mobile-menu__link">Отзывы</a></li>
+                <li><a href="./#faq" class="mobile-menu__link">FAQ</a></li>
+            </ul>
+            <a href="tel:+390697638629" class="mobile-menu__phone">+39 06 9763 8629</a>
+        </div>
     </div>
-</div>
+    <div class="cookie-popup" id="cookiePopup">
+        <div class="cookie-popup__content">
+            <p>Этот сайт использует cookies для улучшения работы. Подробнее — в нашей <a href="./cookies.php">Cookie
+                    политике</a>.</p>
+            <button class="btn btn--primary btn--sm" id="acceptCookies">Принять</button>
+        </div>
+    </div>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script type="module" src="script.js"></script>    
- 
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-parallax-js@5.5.1/dist/simpleParallax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/split-type"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>

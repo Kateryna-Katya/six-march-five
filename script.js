@@ -1,147 +1,274 @@
-import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js';
+/**
+ * Project: <?= $domainTitle ?> (IT-School)
+ * Libraries: GSAP, SplitType, AOS, Swiper, Anime.js, simpleParallax, Lucide
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. Инициализация иконок ---
-    if (typeof lucide !== 'undefined') lucide.createIcons();
+    // --- 1. ИНИЦИАЛИЗАЦИЯ БАЗОВЫХ БИБЛИОТЕК ---
+    
+    // Иконки Lucide
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
 
-    // --- 2. Мобильное меню («Бургер») ---
-    const burger = document.querySelector('.burger');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const closeMenu = document.querySelector('.mobile-menu__close');
-    const menuLinks = document.querySelectorAll('.mobile-menu__link');
-
-    const toggleMenu = () => mobileMenu.classList.toggle('mobile-menu--active');
-
-    burger?.addEventListener('click', toggleMenu);
-    closeMenu?.addEventListener('click', toggleMenu);
-    menuLinks.forEach(link => link.addEventListener('click', toggleMenu));
-
-    // --- 3. Header Scroll Effect ---
-    const header = document.querySelector('.header');
-    window.addEventListener('scroll', () => {
-        header?.classList.toggle('header--scrolled', window.scrollY > 50);
+    // AOS (Анимация при скролле)
+    AOS.init({
+        duration: 1000,
+        once: true,
+        easing: 'ease-out-cubic'
     });
 
-    // --- 4. Three.js Hero Scene ---
-    const initHeroScene = () => {
-        const container = document.getElementById('hero-canvas');
-        if (!container) return;
-
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        container.appendChild(renderer.domElement);
-
-        const geometry = new THREE.BufferGeometry();
-        const vertices = [];
-        for (let i = 0; i < 4000; i++) {
-            vertices.push(THREE.MathUtils.randFloatSpread(2000), THREE.MathUtils.randFloatSpread(2000), THREE.MathUtils.randFloatSpread(2000));
-        }
-        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-        const points = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x635BFF, size: 2, transparent: true, opacity: 0.6 }));
-        scene.add(points);
-        camera.position.z = 1000;
-
-        let mouseX = 0, mouseY = 0;
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX - window.innerWidth / 2) / 150;
-            mouseY = (e.clientY - window.innerHeight / 2) / 150;
+    // Simple Parallax для изображений
+    const parallaxImages = document.querySelectorAll('.parallax-img');
+    if (parallaxImages.length > 0 && typeof simpleParallax !== 'undefined') {
+        new simpleParallax(parallaxImages, {
+            delay: .6,
+            transition: 'cubic-bezier(0,0,0,1)',
+            scale: 1.3
         });
+    }
 
-        const animate = () => {
-            requestAnimationFrame(animate);
-            points.rotation.x += 0.0005; points.rotation.y += 0.0005;
-            camera.position.x += (mouseX - camera.position.x) * 0.05;
-            camera.position.y += (-mouseY - camera.position.y) * 0.05;
-            camera.lookAt(scene.position);
-            renderer.render(scene, camera);
-        };
-        animate();
+
+    // --- 2. МОБИЛЬНОЕ МЕНЮ ---
+
+    const burger = document.querySelector('.burger');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-menu__link');
+
+    const toggleMenu = () => {
+        burger.classList.toggle('is-active');
+        mobileMenu.classList.toggle('is-active');
+        document.body.style.overflow = mobileMenu.classList.contains('is-active') ? 'hidden' : '';
     };
 
-    // --- 5. Image Morphing (Strategies) ---
-    const initStrategyMorph = () => {
-        const items = document.querySelectorAll('.strategy-item');
-        const morphImg = document.querySelector('.morph-img');
-        const shapes = {
-            circle: 'circle(45% at 50% 50%)',
-            polygon: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-            blob: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)'
-        };
-        items.forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                items.forEach(i => i.classList.remove('active'));
+    burger.addEventListener('click', toggleMenu);
+
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', toggleMenu);
+    });
+
+
+    // --- 3. ЭФФЕКТЫ ХЕДЕРА ПРИ СКРОЛЛЕ ---
+
+    const header = document.querySelector('.header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.style.padding = '12px 0';
+            header.style.background = 'rgba(255, 255, 255, 0.95)';
+            header.style.boxShadow = '0 10px 30px rgba(0,0,0,0.08)';
+        } else {
+            header.style.padding = '20px 0';
+            header.style.background = 'rgba(255, 255, 255, 0.8)';
+            header.style.boxShadow = 'none';
+        }
+    });
+
+
+    // --- 4. GSAP: ВХОДНАЯ АНИМАЦИЯ (HERO) ---
+
+    if (typeof gsap !== 'undefined') {
+        // Разбивка текста (если есть SplitType)
+        const titleElement = document.querySelector('.hero__title');
+        let titleChars = null;
+        
+        if (typeof SplitType !== 'undefined' && titleElement) {
+            const text = new SplitType(titleElement, { types: 'chars, words' });
+            titleChars = text.chars;
+        }
+
+        const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+        tl.from('.hero__badge', {
+            y: 20,
+            opacity: 0,
+            duration: 0.8,
+            delay: 0.5
+        })
+        .from(titleChars || titleElement, {
+            y: 80,
+            opacity: 0,
+            rotateX: -90,
+            stagger: 0.02,
+            duration: 1
+        }, "-=0.5")
+        .from('.hero__subtitle', {
+            y: 20,
+            opacity: 0,
+            duration: 0.8
+        }, "-=0.6")
+
+        .from('.hero__stats .stat-item', {
+            y: 20,
+            opacity: 0,
+            stagger: 0.2,
+            duration: 0.6
+        }, "-=0.4")
+        .from('.hero__visual', {
+            x: 100,
+            opacity: 0,
+            duration: 1.2,
+            ease: 'expo.out'
+        }, "-=1");
+
+        // Бесконечное "плавание" карточки кода
+        gsap.to('.code-card', {
+            y: 15,
+            duration: 3,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut'
+        });
+    }
+
+
+    // --- 5. КАРУСЕЛЬ ОТЗЫВОВ (SWIPER) ---
+
+    if (typeof Swiper !== 'undefined') {
+        new Swiper('.reviews-slider', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: { delay: 5000 },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 }
+            }
+        });
+    }
+
+
+    // --- 6. FAQ АККОРДЕОН ---
+
+    const accordionItems = document.querySelectorAll('.accordion-item');
+    accordionItems.forEach(item => {
+        const header = item.querySelector('.accordion-header');
+        header.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            
+            // Закрываем остальные (опционально, для эффекта "одиночного открытия")
+            accordionItems.forEach(i => i.classList.remove('active'));
+            
+            if (!isActive) {
                 item.classList.add('active');
-                if(morphImg) morphImg.style.clipPath = shapes[item.dataset.shape] || shapes.circle;
+            }
+        });
+    });
+
+
+    // --- 7. КАРТОЧКИ КУРСОВ (MICRO-INTERACTIONS) ---
+
+    if (typeof anime !== 'undefined') {
+        document.querySelectorAll('.course-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                anime({
+                    targets: card.querySelector('.course-card__icon'),
+                    scale: 1.15,
+                    rotate: '10deg',
+                    duration: 400,
+                    easing: 'easeOutQuad'
+                });
+            });
+            card.addEventListener('mouseleave', () => {
+                anime({
+                    targets: card.querySelector('.course-card__icon'),
+                    scale: 1,
+                    rotate: '0deg',
+                    duration: 400,
+                    easing: 'easeOutQuad'
+                });
             });
         });
-    };
 
-    // --- 6. Контактная форма + Валидация телефона + Капча ---
-    const initContactForm = () => {
-        const form = document.getElementById('ajax-form');
-        const phoneInput = document.getElementById('phone');
-        const questionEl = document.getElementById('captcha-question');
-        const messageEl = document.getElementById('form-message');
+        // Анимация точки в логотипе
+        anime({
+            targets: '.logo__dot',
+            scale: [1, 1.4, 1],
+            opacity: [1, 0.7, 1],
+            duration: 2500,
+            loop: true,
+            easing: 'easeInOutQuad'
+        });
+    }
 
-        if (!form) return;
 
-        // Валидация телефона (только цифры и +)
-        phoneInput?.addEventListener('input', (e) => {
+    // --- 8. ФОРМА КОНТАКТОВ + КАПЧА ---
+
+    const mainForm = document.getElementById('mainForm');
+    const phoneInput = document.getElementById('phoneInput');
+    const captchaText = document.getElementById('captchaQuestion');
+    const captchaInput = document.getElementById('captchaInput');
+    
+    // Генерация математической капчи
+    let num1 = Math.floor(Math.random() * 7) + 1;
+    let num2 = Math.floor(Math.random() * 8) + 1;
+    let captchaResult = num1 + num2;
+    if (captchaText) captchaText.textContent = `${num1} + ${num2}`;
+
+    // Валидация телефона (только цифры и +)
+    if (phoneInput) {
+        phoneInput.addEventListener('input', (e) => {
             e.target.value = e.target.value.replace(/[^\d+]/g, '');
         });
+    }
 
-        // Генерация капчи
-        let n1 = Math.floor(Math.random() * 10), n2 = Math.floor(Math.random() * 10);
-        if(questionEl) questionEl.textContent = `${n1} + ${n2}`;
-
-        form.addEventListener('submit', async (e) => {
+    if (mainForm) {
+        mainForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const answer = parseInt(document.getElementById('captcha-answer').value);
-            if (answer !== (n1 + n2)) {
-                messageEl.textContent = "Ошибка капчи!";
-                messageEl.className = "form-message error";
+            
+            // Проверка капчи
+            if (parseInt(captchaInput.value) !== captchaResult) {
+                alert('Пожалуйста, решите математический пример правильно.');
                 return;
             }
 
-            const btn = form.querySelector('button');
-            btn.disabled = true; btn.textContent = "Отправка...";
+            const btn = mainForm.querySelector('button');
+            const successOverlay = document.getElementById('formSuccess');
 
-            await new Promise(r => setTimeout(r, 1500)); // Имитация AJAX
-            
-            messageEl.textContent = "Успешно отправлено!";
-            messageEl.className = "form-message success";
-            form.reset();
-            btn.disabled = false; btn.innerHTML = 'Отправить запрос <i data-lucide="send"></i>';
-            if (typeof lucide !== 'undefined') lucide.createIcons();
-        });
-    };
+            // Имитация отправки
+            btn.disabled = true;
+            btn.textContent = 'Отправка данных...';
 
-    // --- 7. Cookie Popup ---
-    const initCookiePopup = () => {
-        const popup = document.getElementById('cookie-popup');
-        const acceptBtn = document.getElementById('cookie-accept');
-        if (!localStorage.getItem('cookies_accepted')) {
-            setTimeout(() => popup?.classList.add('cookie-popup--active'), 2000);
-        }
-        acceptBtn?.addEventListener('click', () => {
-            localStorage.setItem('cookies_accepted', 'true');
-            popup?.classList.remove('cookie-popup--active');
-        });
-    };
-
-    // --- Запуск ---
-    initHeroScene();
-    initStrategyMorph();
-    initContactForm();
-    initCookiePopup();
-    if (typeof Swiper !== 'undefined') {
-        new Swiper('.insights-slider', {
-            slidesPerView: 1, spaceBetween: 30, loop: true,
-            navigation: { nextEl: '.swiper-button-next-custom', prevEl: '.swiper-button-prev-custom' },
-            breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
+            setTimeout(() => {
+                successOverlay.style.display = 'flex';
+                if (typeof anime !== 'undefined') {
+                    anime({
+                        targets: successOverlay,
+                        opacity: [0, 1],
+                        scale: [0.9, 1],
+                        duration: 600,
+                        easing: 'easeOutExpo'
+                    });
+                }
+            }, 1500);
         });
     }
+
+
+    // --- 9. COOKIE POPUP ---
+
+    const cookiePopup = document.getElementById('cookiePopup');
+    const acceptBtn = document.getElementById('acceptCookies');
+
+    if (cookiePopup && !localStorage.getItem('cookiesAccepted')) {
+        setTimeout(() => {
+            cookiePopup.classList.add('is-show');
+        }, 3000);
+    }
+
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+            localStorage.setItem('cookiesAccepted', 'true');
+            cookiePopup.classList.remove('is-show');
+        });
+    }
+
 });
